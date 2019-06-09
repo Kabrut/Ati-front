@@ -27,7 +27,16 @@
 
         >
         <br><br>
+        <div class="checkboxes">
+          <input type="checkbox" id="ads" value="1" v-model="checkedItems">
+        <label for="ads">Ogłoszenia</label>
+          <input type="checkbox" id="info" value="2" v-model="checkedItems">
+        <label for="info">Informacje</label>
+          <input type="checkbox" id="warr" value="3" v-model="checkedItems">
+        <label for="warr">Ostrzeżenia</label>
+        </div>
         <b-button @click="addPost()">Dodaj Post</b-button>
+        {{checkedNames}}
         </p>
       </b-card>
     </b-collapse>
@@ -42,6 +51,7 @@ export default {
     return {
       response: [],
       errors: [],
+      checkedItems: [],
       NewPost: {
         title: '',
         content: ''
@@ -53,7 +63,7 @@ export default {
       var params = new URLSearchParams()
       params.append('post_title', this.NewPost.title)
       params.append('post_content', this.NewPost.content)
-
+      params.append('categoryList', this.checkedItems)
       axios.post(`http://localhost:8000/post`, params)
         .then(response => {
           this.response = response.data

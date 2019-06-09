@@ -18,8 +18,8 @@
         >
         <br><br>
         <b-button @click="addComment()">Dodaj Komentarz</b-button>
-        </p>
       </b-card>
+      {{post_id}}
     </b-collapse>
 </div>
 </template>
@@ -28,6 +28,7 @@
 import axios from 'axios'
 export default {
   name: 'NewComment',
+  props: ['post_id'],
   data () {
     return {
       response: [],
@@ -42,7 +43,7 @@ export default {
       var params = new URLSearchParams()
       params.append('comment_content', this.NewComment.content)
 
-      axios.post(`http://localhost:8000/comment`, params)
+      axios.post(`http://localhost:8000/comment/post/${this.post_id}`, params)
         .then(response => {
           this.response = response.data
           console.log(response.data)

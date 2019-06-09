@@ -2,6 +2,7 @@
   <div id="app">
     <div class="content" >
       <b-card v-for="Post in Posts">
+        <div class="delete_post"><b-button v-on:click="deletePost(Post.post_id)">Usuń</b-button></div>
         <p><strong><h3>{{ Post.post_title }}</h3></strong></p>
       <b-card>
         <div class="contentbox">
@@ -9,9 +10,9 @@
 
         </div>
       </b-card>
-         <NewComment/>
+         <NewComment :post_id = "Post.post_id"/>
         <b-card>
-      <Comment />
+      <Comment :post_id = "Post.post_id"/>
 
     </b-card>
 
@@ -47,6 +48,12 @@ export default {
         .catch(e => {
           this.errors.push(e)
         })
+    },
+    deletePost (post_id) {
+      axios.delete(`http://localhost:8000/posts/${post_id}`)
+        .then(response => {
+          console.log(response)
+        })
     }
   },
   created () {
@@ -65,4 +72,8 @@ export default {
 .content{
   width:100%;
 }
+  .delete_post{
+    float:right;
+    display: block;
+  }
 </style>

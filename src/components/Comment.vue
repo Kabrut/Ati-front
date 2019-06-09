@@ -34,6 +34,7 @@
 import axios from 'axios'
 export default {
   name: 'Comment',
+  props: [post_id],
   data () {
     return {
       Comments: [],
@@ -42,7 +43,7 @@ export default {
   },
   methods: {
     showComment () {
-      axios.get(`http://localhost:8000/showComment`)
+      axios.get(`http://localhost:8000/showComment/${post_id}`)
         .then(response => {
           this.Comments = response.data.reverse()
           console.log(response.Comments)
