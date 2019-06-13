@@ -36,8 +36,6 @@
         <label for="warr">Ostrzeżenia</label>
         </div>
         <b-button @click="addPost()">Dodaj Post</b-button>
-        {{checkedNames}}
-        </p>
       </b-card>
     </b-collapse>
   </div>
