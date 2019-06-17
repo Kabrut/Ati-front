@@ -1,18 +1,35 @@
 <template>
   <div id="app">
     <div class="content" >
-      <b-card v-for="Post in Posts">
-        <div class="delete_post"><b-button v-on:click="deletePost(Post.post_id)">Usuń</b-button></div>
-        <p><strong><h3>{{ Post.post_title }}</h3></strong></p>
+      <b-card v-for="Post in Posts"
+              :key="Post.post_id"
+      >
+
+        <div class="delete_post">
+          <b-button
+          @click="deletePost(Post.post_id)">Usuń
+          </b-button>
+        </div>
+        <p><strong>
+        <h3>{{ Post.post_title }}</h3>
+        </strong>
+        </p>
       <b-card>
         <div class="contentbox">
           <p>{{ Post.post_content }}</p>
 
         </div>
       </b-card>
-         <NewComment :post_id = "Post.post_id"/>
+         <NewComment
+           :post_id = "Post.post_id"
+           v-on:added = "updateComponent"
+         />
         <b-card>
-      <Comment :post_id = "Post.post_id"/>
+      <Comment
+        :post_id = "Post.post_id"
+        :key="commentkey"
+        v-on:deleted = "updateComponent"
+      />
 
     </b-card>
 
@@ -30,10 +47,13 @@ import axios from 'axios'
 import NewComment from './NewComment'
 
 export default {
+
   name: 'Posts',
   components: {NewComment, Comment},
   data () {
     return {
+      commentkey: 0,
+      post_id: 0,
       Posts: [],
       errors: []
     }
@@ -54,9 +74,15 @@ export default {
         .then(response => {
           console.log(response)
         })
+
+      this.$emit('delpost')
     }
   },
-  created () {
+  updateComponent: function () {
+    this.post_id += 1
+    this.commentkey += 1
+  },
+  mounted () {
     this.showPost()
   }
 }

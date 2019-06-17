@@ -1,15 +1,19 @@
 <template>
   <div id="app">
     <MonthPick />
+    <NewEvent/>
+    <Events/>
   </div>
 </template>
 
 <script>
 import MonthPick from '@/components/MonthPick'
+import NewEvent from '@/components/NewEvent'
+import Events from '@/components/Events'
 
 export default {
   name: 'App',
-  components: { MonthPick }
+  components: {Events, NewEvent, MonthPick }
 }
 </script>
 

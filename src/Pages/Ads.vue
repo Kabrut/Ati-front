@@ -3,8 +3,8 @@
    <side-ads />
     <div class="postbox">
       <div class="postbutton">
-      <NewPost /></div>
-      <Posts />
+      <NewPost v-on:addPost="recreate" /></div>
+      <Posts v-on:updated="recreate" v-on:delpost="recreate" :key="postkey"/>
     </div>
   </div>
 </template>
@@ -28,12 +28,16 @@ export default {
 
   data () {
     return {
-      question: 'What you think about Vue.js',
+      postkey: 0,
       comments: [],
       loading: false
     }
+  },
+  methods: {
+    recreate () {
+      this.postkey += 1
+    }
   }
-
 }
 </script>
 <style scoped>

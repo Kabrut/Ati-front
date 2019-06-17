@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
 
     <b-button
       v-b-toggle.collapse-1
@@ -35,7 +35,7 @@
           <input type="checkbox" id="warr" value="3" v-model="checkedItems">
         <label for="warr">Ostrzeżenia</label>
         </div>
-        <b-button @click="addPost()">Dodaj Post</b-button>
+        <b-button @click="addPost()" >Dodaj Post</b-button>
       </b-card>
     </b-collapse>
   </div>
@@ -43,6 +43,7 @@
 
 <script>
 import axios from 'axios'
+import Posts from './Posts'
 export default {
   name: 'NewPost',
   data () {
@@ -57,7 +58,7 @@ export default {
     }
   },
   methods: {
-    addPost () {
+    addPost: async function () {
       var params = new URLSearchParams()
       params.append('post_title', this.NewPost.title)
       params.append('post_content', this.NewPost.content)
@@ -71,6 +72,8 @@ export default {
         .catch(e => {
           this.errors.push(e)
         })
+      await this.$nextTick()
+      this.$emit('addPost')
     }
   }
 }

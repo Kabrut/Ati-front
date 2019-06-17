@@ -1,11 +1,17 @@
 <script>
 import Register from './Register'
+import axios from 'axios'
 export default {
   name: 'Login',
   components: { Register },
   data () {
     return {
-      isModalVisibl: false
+      isModalVisibl: false,
+      failed:'',
+      Login: {
+        login: '',
+        password: ''
+      }
     }
   },
   methods: {
@@ -17,6 +23,21 @@ export default {
     },
     closeModa () {
       this.isModalVisibl = false
+    },
+    logIn () {
+      axios.post(`http://localhost:8000/login/${this.Login.login}-${this.Login.password}`)
+        .then(response => {
+          this.response = response.data
+          console.log(response.data)
+          if (response.data === true) {
+            close()
+          }else{
+            this.failed="Zły login lub hasło"
+          }
+        })
+        .catch(e => {
+          this.errors.push(e)
+        })
     }
   }
 }
@@ -52,9 +73,10 @@ export default {
         >
           <slot name="body">
             <h3>Login</h3>
-            <input type="text">
+            <input type="text" v-model="Login.login">
             <h3>Hasło</h3>
-            <input type="password">
+            <input type="password" v-model="Login.password"><br>
+            {{ failed }}
           </slot>
         </section>
         <footer class="modal-footer">
@@ -63,19 +85,10 @@ export default {
               type="button"
               class="btn-green"
               aria-label="Close modal"
-              @click="close"
+              @click="logIn"
             >
               Zaloguj
             </button>
-            <!--
-            <button
-              type="button"
-              class="btn-green"
-              aria-label="Close modal"
-              @click="close"
-            >
-              Zarejestruj
-            </button> -->
             <button
               type="button"
               class="btn-green"
